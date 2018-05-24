@@ -10,36 +10,18 @@ int main (int argc, char *argv[])
     size = pathconf(".", _PC_PATH_MAX);
     char * t;
 
-   //DCom.L.Current_Dir = getcwd(t, (size_t)size);// получаем текущий каталог
-   // if (strlen(DCom.L.Current_Dir)==0) // проверяем получили ли имя
-
    if((DCom.L.Current_Dir = getcwd(t, (size_t)size))==NULL) //получаем текущий каталог и проверяем, получили ли
      {printf("%s\n","Ошибка получения текущего каталога.");
-        return 0;
-        }
+        return 0;}
 
-     //strcpy(DCom.R.Current_Dir,DCom.L.Current_Dir);
-      DCom.R.Current_Dir = getcwd(t, (size_t)size);
+    DCom.R.Current_Dir = getcwd(t, (size_t)size);
+     DCom.L.current_position=0;
+     DCom.R.current_position=0;
 
-
-    DCom.L.current_position=0;
-    DCom.R.current_position=0;
-    //printf("%s\n",DCom.L.Current_Dir);
-
-
-
- // /home/vovan/stud/Dcom
-    //DCom.L= ReadDir("/home/vovan/stud/Dcom");
     DCom.L= ReadDir(DCom.L.Current_Dir); // читаем содержимое каталога в левой панели
     DCom.R= ReadDir(DCom.R.Current_Dir);
-//return 0;
 
-/*for(int i=0;i<DCom.L.str_count;i++)
-    {       printf("%s",DCom.L.List[i]);
-       printf("%s\n",DCom.L.Type[i]);}*/
-
-
-//всё инициализируем
+//инициализируем окно ncurses
   initscr();
   start_color();
   keypad (stdscr, TRUE);
@@ -55,8 +37,6 @@ MEVENT event;
   update_screen(DCom); // выводим начальное состояние
 //объявляем переменную для хранения нажатой клавиши
   int ch = 0;
-  //ch = getch();
-  //printf("%i\n",ch);
 
 //считываем клавиши, пока не будет нажата 'F3' (по F3 - выход)
   while (ch != KEY_F(3))
@@ -100,15 +80,14 @@ MEVENT event;
                 case KEY_LEFT:
 			    DCom.current_panel=1;
                              break;
-                             break;
 //если нажата "вправо"
                 case KEY_RIGHT:
 			    DCom.current_panel=0;
                              break;
-                             break;
+
 //если нажата "BACKSPACE" // выйти на каталог выше
                 case KEY_BACKSPACE:
-                 if(DCom.current_panel) // левая панель
+                            if(DCom.current_panel) // левая панель
                               {  if(strlen(DCom.L.Current_Dir)>2)
                                  strcpy(strrchr(DCom.L.Current_Dir,'/'),""); // находим / с конца строки,  все, что после него - убиваем
                                  DCom.L= ReadDir(DCom.L.Current_Dir);}
@@ -119,21 +98,27 @@ MEVENT event;
                                 break;
 //обработка нажатия Enter - войти в каталог
                  case '\n':
-                              if(DCom.current_panel) // левая панель
-                              {//if(DCom.L.Type[DCom.L.Type.current_position]=="<DIR>")  проверяем, чтоб это был каталог
-                                  strcat(DCom.L.Current_Dir,"/");
-                               strcat(DCom.L.Current_Dir,DCom.L.List[DCom.L.current_position]);
-                               DCom.L= ReadDir(DCom.L.Current_Dir);}
+                 if(((DCom.current_panel)&&(DCom.L.current_position==0)) || ((!DCom.current_panel)&&(DCom.R.current_position==0)))
+                     if(DCom.current_panel) // левая панель
+                              {  if(strlen(DCom.L.Current_Dir)>2)
+                                 strcpy(strrchr(DCom.L.Current_Dir,'/'),""); // находим / с конца строки,  все, что после него - убиваем
+                                 DCom.L= ReadDir(DCom.L.Current_Dir);}
                               else
-                              {strcat(DCom.R.Current_Dir,"/");
+                              { if(strlen(DCom.R.Current_Dir)>2)
+                                strcpy(strrchr(DCom.R.Current_Dir,'/'),"");
+                                DCom.R= ReadDir(DCom.R.Current_Dir);}
+
+                    if(DCom.current_panel) // левая панель
+                               {if(!strcmp(DCom.L.Type[DCom.L.current_position],"<DIR>"))  //проверяем, чтоб это был каталог
+                                  {strcat(DCom.L.Current_Dir,"/");
+                               strcat(DCom.L.Current_Dir,DCom.L.List[DCom.L.current_position]);
+                               DCom.L= ReadDir(DCom.L.Current_Dir);}}
+                              else
+                              {if(!strcmp(DCom.R.Type[DCom.R.current_position],"<DIR>"))  //проверяем, чтоб это был каталог
+                                  {strcat(DCom.R.Current_Dir,"/");
                                strcat(DCom.R.Current_Dir,DCom.R.List[DCom.R.current_position]);
-                               DCom.R= ReadDir(DCom.R.Current_Dir);}
-                                //{if(  DCom.L.Type[DCom.L.current_position] == "<DIR>")
-
-
-                                //    }
-//mvaddstr(LINES,0,DCom.L.Current_Dir);
-                               break;
+                               DCom.R= ReadDir(DCom.R.Current_Dir);}}
+                                break;
 // обработка нажатия мыши - не контролирует, какая клавиши нажата, только факт нажатия
 	         //case  KEY_MOUSE:
                               /* if (getmouse(&event) == OK)

@@ -19,9 +19,8 @@ struct DCommander{
        struct Panel R;
        int current_panel; // 1- Left
            };
-//extern int curposX,curposY;
+
 struct  Panel  ReadDir(char * Dir_Name); // функция смены каталога
-//struct My_Note  File_Save(struct My_Note);
 void update_screen(struct DCommander DCommander);
 void update_panel(struct Panel Pan, int delta, int activ);
 #endif
