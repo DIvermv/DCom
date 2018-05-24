@@ -18,7 +18,8 @@ struct  Panel  ReadDir(char * Dir_Name)
     DIR *dir=opendir(Dir_Name);
      if(dir)
      {while((F=readdir(dir))!=NULL)
-       if(F->d_name[0]!='.')  // if(F->d_name!=".")&&(F->d_name!="..")
+        if(strcmp(F->d_name,".") && strcmp(F->d_name,".."))
+       //if(F->d_name[0]!='.')  // if(F->d_name!=".")&&(F->d_name!="..")
         if(F->d_type==4) // читаем только папки
         {strcpy(Pan.List[i],F->d_name);// имя файла
          strcpy(Pan.Type[i],"<DIR>");
@@ -28,7 +29,8 @@ struct  Panel  ReadDir(char * Dir_Name)
       dir=opendir(Dir_Name);
      if(dir)
      {while((F=readdir(dir))!=NULL)
-       if(F->d_name[0]!='.')  // if(F->d_name!=".")&&(F->d_name!="..")
+
+       //if(F->d_name[0]!='.')  // if(F->d_name!=".")&&(F->d_name!="..")
         if(F->d_type==8) // читаем только файлы
         {char * rt;
           strcpy(Pan.List[i],F->d_name);
