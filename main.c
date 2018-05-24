@@ -5,6 +5,7 @@ int main (int argc, char *argv[])
 {
     struct DCommander DCom;
     long size;
+    setlocale(LC_ALL, "Russian");
     DCom.current_panel=1;
     size = pathconf(".", _PC_PATH_MAX);
     char * t;
@@ -125,7 +126,7 @@ MEVENT event;
                                DCom.L= ReadDir(DCom.L.Current_Dir);}
                               else
                               {strcat(DCom.R.Current_Dir,"/");
-                               strcat(DCom.R.Current_Dir,DCom.L.List[DCom.L.current_position]);
+                               strcat(DCom.R.Current_Dir,DCom.R.List[DCom.R.current_position]);
                                DCom.R= ReadDir(DCom.R.Current_Dir);}
                                 //{if(  DCom.L.Type[DCom.L.current_position] == "<DIR>")
 
