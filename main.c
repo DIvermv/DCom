@@ -9,7 +9,6 @@ int main (int argc, char *argv[])
     DCom.current_panel=1;
     size = pathconf(".", _PC_PATH_MAX);
     char * t;
-
    if((DCom.L.Current_Dir = getcwd(t, (size_t)size))==NULL) //получаем текущий каталог и проверяем, получили ли
      {printf("%s\n","Ошибка получения текущего каталога.");
         return 0;}
@@ -17,10 +16,8 @@ int main (int argc, char *argv[])
     DCom.R.Current_Dir = getcwd(t, (size_t)size);
      DCom.L.current_position=0;
      DCom.R.current_position=0;
-
     DCom.L= ReadDir(DCom.L.Current_Dir); // читаем содержимое каталога в левой панели
     DCom.R= ReadDir(DCom.R.Current_Dir);
-
 //инициализируем окно ncurses
   initscr();
   start_color();
@@ -112,7 +109,29 @@ MEVENT event;
                                {if(!strcmp(DCom.L.Type[DCom.L.current_position],"<DIR>"))  //проверяем, чтоб это был каталог
                                   {strcat(DCom.L.Current_Dir,"/");
                                strcat(DCom.L.Current_Dir,DCom.L.List[DCom.L.current_position]);
-                               DCom.L= ReadDir(DCom.L.Current_Dir);}}
+                               DCom.L= ReadDir(DCom.L.Current_Dir);}
+				else
+				  {  int child_status;
+					  if (fork() == 0) {// дублируем процесс - 
+			              char  bi[4096];         // дочерний процесс
+                                       endwin();// разрушаем окно*/
+				      strcpy(bi,DCom.L.Current_Dir);// формируем полное имя бинарного файла
+                                      strcat(bi,"/");
+				      strcat(bi,DCom.L.List[DCom.L.current_position]);
+                                           char *arg[] = { bi,  0 };
+					  execv(arg[0],  arg);}// заменяем процесс на bi
+				     else{// родительский процесс
+				     wait(0);
+
+  endwin();// разрушаем окно*/
+  initscr();
+  start_color();
+  keypad (stdscr, TRUE);
+  noecho();
+				     
+  update_screen(DCom); // выводим начальное состояние
+				     }
+				} }
                               else
                               {if(!strcmp(DCom.R.Type[DCom.R.current_position],"<DIR>"))  //проверяем, чтоб это был каталог
                                   {strcat(DCom.R.Current_Dir,"/");

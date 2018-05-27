@@ -36,9 +36,11 @@ struct  Panel  ReadDir(char * Dir_Name)
              rt--;
              strcpy(rt,"");
              }
+	 else
+	  {strcpy(Pan.Type[i],"");}  
              i++;}
+     
      closedir(dir);}
      Pan.str_count=i;
-
     return Pan;}
 
