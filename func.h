@@ -23,4 +23,5 @@ struct DCommander{
 struct  Panel  ReadDir(char * Dir_Name); // функция смены каталога
 void update_screen(struct DCommander DCommander);
 void update_panel(struct Panel Pan, int delta, int activ);
+struct DCommander press_enter(struct DCommander DCom);
 #endif

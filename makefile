@@ -1,2 +1,2 @@
 all:
-	gcc main.c ReadDir.c upd_scr.c -o DComander -lncurses
+	gcc main.c ReadDir.c upd_scr.c key_press.c -o DComander -lncurses
