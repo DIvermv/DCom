@@ -55,6 +55,23 @@ MEVENT event;
                  case KEY_F(2):
 			       DCom.current_panel=0;
                              break;
+//если нажата "F5", то копируем файл
+                 case KEY_F(5):
+                        if(strcmp(DCom.L.Type[DCom.L.current_position],"<DIR>"))  //проверяем, чтоб это был каталог
+			   {   char  File_Name[256];
+			         strcpy(File_Name,DCom.L.List[DCom.L.current_position]);
+			        if(DCom.L.Type[DCom.L.current_position]!="")
+			         {strcat(File_Name,".");
+			          strcat(File_Name,DCom.L.Type[DCom.L.current_position]);
+				 }
+
+
+                              Th_Copy_file(DCom.L.Current_Dir,DCom.R.Current_Dir, File_Name );
+			      strcpy(DCom.Status,"File copied: ");
+			      strcat(DCom.Status,File_Name);
+			  }
+                         DCom.R= ReadDir(DCom.R.Current_Dir);
+                             break;
 //если нажата "вверх"
                  case KEY_UP:
 			    if ( DCom.current_panel) // левая панель

@@ -13,6 +13,7 @@ void update_screen(struct DCommander DCommander)
 	        mvaddstr(LINES-2, (COLS/3-sizeof("F2 - RIGHT PANEL"))/2+COLS/3,"F2 - RIGHT PANEL");
          	mvaddstr(LINES-2, (COLS/3-sizeof("F3 - Close File"))/2+COLS*2/3,"F3 - Close File");
            attroff (COLOR_PAIR(3));
+               mvaddstr(LINES-1,0,DCommander.Status);
 }
 
 void update_panel(struct Panel Pan, int delta, int activ) // отрисовываем панель

@@ -18,10 +18,21 @@ struct DCommander{
        struct Panel L;
        struct Panel R;
        int current_panel; // 1- Left
+       char Status[256];
            };
 
+ struct _f_name_data{
+        char*	Sourse_Dir;
+	char*	Dest_Dir;
+	char*	File_Name;
+	int copy_progress;
+                    };
 struct  Panel  ReadDir(char * Dir_Name); // функция смены каталога
 void update_screen(struct DCommander DCommander);
 void update_panel(struct Panel Pan, int delta, int activ);
 struct DCommander press_enter(struct DCommander DCom);
+int Th_Copy_file(char* Sourse_Dir,char * Dest_Dir, char* File_Name );
+ // потоковые функции
+ int Copy_file(void * f_name_data);
+ int Copy_Progress(void * f_data);
 #endif
