@@ -68,16 +68,9 @@ struct DCommander press_enter(struct DCommander DCom)
 return DCom;
 }
 
-
-//int Copy_file(char* Sourse_Dir,char * Dest_Dir, char* File_Name )
 int Copy_file(void * f_data)
 {
 struct _f_name_data f_name_data= * (struct _f_name_data * ) f_data;
-     // * f_name_data=f_data;
-     // int loc_id = * (int *) arg;
-	       // Sourse_Dir=f_name_data.Sourse_Dir;
-		//Dest_Dir=f_name_data.Dest_Dir;
-		//File_Name=f_name_data.File_Name;
 	char  sourse_file[256];
 	char  dest_file[256];
 	char  str[256];
@@ -110,9 +103,6 @@ long File_Size;
   unsigned char  buf[2097152]; // буфер в 2Mb
   int buf_size;
   long Ostatok=File_Size;
- // int progress; 
-       // addstr(File_Size);
-       // int ch = getch();
   while(Ostatok>0)  // пока не скопируем весь файл
   { 
     if(Ostatok<2097152)
@@ -123,11 +113,8 @@ long File_Size;
     fwrite(&buf, buf_size, 1, Destfile);
     Ostatok=Ostatok-buf_size;
    pthread_mutex_lock(&mut);// блокируем prgs
-   // f_name_data.copy_progress=(File_Size-Ostatok)*100/File_Size; //прогресс копирования файла в процентах  
     prgs=(File_Size-Ostatok)*100/File_Size; //прогресс копирования файла в процентах  
    pthread_mutex_unlock(&mut);
-    
-   // int ch = getch();
   }
    fclose(Soursefile);
    fclose(Destfile);
@@ -150,7 +137,6 @@ int Copy_Progress(void * f_data)
            int start=strlen(stat);
            for(int i=start;i<(COLS-2);i++)
              {
-                //  if(( (i-start)*100/(COLS-2-start))<f_name_data.copy_progress)
                     if(( (i-start)*100/(COLS-2-start))<prgs)
                      strcat(stat, "#");
                     else

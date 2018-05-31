@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <locale.h>
-//extern int current_element; //номер текущего элемента
 struct Panel {
 	char List[256][256];// список файлов и папок
 	int Files_size[256];

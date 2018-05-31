@@ -9,9 +9,10 @@ void update_screen(struct DCommander DCommander)
    update_panel(DCommander.R,COLS>>1,!DCommander.current_panel);
        // Подписываем функциональные клавиши внизу экрана
            attron (COLOR_PAIR(3));
-        	mvaddstr(LINES-2, (COLS/3-sizeof("F1 - LEFT PANEL"))/2,"F1 - LEFT PANEL");
-	        mvaddstr(LINES-2, (COLS/3-sizeof("F2 - RIGHT PANEL"))/2+COLS/3,"F2 - RIGHT PANEL");
-         	mvaddstr(LINES-2, (COLS/3-sizeof("F3 - Close File"))/2+COLS*2/3,"F3 - Close File");
+        	mvaddstr(LINES-2, (COLS/4-sizeof("F1 - LEFT PANEL"))/2,"F1 - LEFT PANEL");
+	        mvaddstr(LINES-2, (COLS/4-sizeof("F2 - RIGHT PANEL"))/2+COLS/4,"F2 - RIGHT PANEL");
+	        mvaddstr(LINES-2, (COLS/4-sizeof("F5 - COPY"))/2+COLS*2/4,"F5 - COPY");
+         	mvaddstr(LINES-2, (COLS/4-sizeof("F9 - Close File"))/2+COLS*3/4,"F9 - Close File");
            attroff (COLOR_PAIR(3));
                mvaddstr(LINES-1,0,DCommander.Status);
 }

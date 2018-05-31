@@ -36,7 +36,7 @@ MEVENT event;
   int ch = 0;
 
 //считываем клавиши, пока не будет нажата 'F3' (по F3 - выход)
-  while (ch != KEY_F(3))
+  while (ch != KEY_F(9))
         {
          //обновляем экран
          update_screen(DCom);
@@ -57,7 +57,7 @@ MEVENT event;
                              break;
 //если нажата "F5", то копируем файл
                  case KEY_F(5):
-                        if(strcmp(DCom.L.Type[DCom.L.current_position],"<DIR>"))  //проверяем, чтоб это был каталог
+                        if(strcmp(DCom.L.Type[DCom.L.current_position],"<DIR>"))  //проверяем, чтоб это не был каталог
 			   {   char  File_Name[256];
 			         strcpy(File_Name,DCom.L.List[DCom.L.current_position]);
 			        if(DCom.L.Type[DCom.L.current_position]!="")

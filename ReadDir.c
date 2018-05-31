@@ -2,7 +2,6 @@
 
 #include <dirent.h>
 
-//#include <ncurses.h>
 
 struct  Panel  ReadDir(char * Dir_Name)
 {
